@@ -32,18 +32,10 @@ namespace ChallengeSGB.Controllers
         public async Task<IActionResult> Promedy()
         {
             List<Encuesta> encuestas = await _context.Encuestas.ToListAsync();
-            if(encuestas.Count > 1)
+            Console.WriteLine("conteo = " + encuestas.Count);
+            if (encuestas.Count > 0)
             {
-                int moviesSeen = 0;
-                List<Period> periods = new List<Period>();
-                foreach(var encuesta in encuestas)
-                {
-                    moviesSeen += encuesta.CantidadPeliculas ?? 0;
-                    if(HelperFunctions.PeriodExists(encuesta.Periodo.ToString() , periods.ToArray()) == true)
-                    {
-                        periods.Find(period => period.period == encuesta.Periodo.ToString()).moviesSeen += encuesta.CantidadPeliculas ?? 0;
-                    }
-                }
+                Console.WriteLine(HelperFunctions.GetPromedy(encuestas.ToArray(),"moviesByUser"));
             }
 
             return _context.Encuestas != null ?

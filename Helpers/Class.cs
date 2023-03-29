@@ -1,14 +1,19 @@
 ﻿namespace ChallengeSGB.Helpers
 {
-    public class Period
+    public class Promedy
     {
-        public string period;
-        public int moviesSeen;
+        public string reference;
+        public int value;
 
-        public Period(string _period, int _moviesSeen)
+        public Promedy(string _reference, int _value)
         {
-            period = _period;
-            moviesSeen = _moviesSeen;
+            reference = _reference;
+            value = _value;
         }
+    }
+    public class Resultados
+    {
+        public int moviesSeen;
+        public int moviesSeenPerPeriod;
     }
 }
