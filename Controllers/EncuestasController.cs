@@ -36,6 +36,7 @@ namespace ChallengeSGB.Controllers
             if (encuestas.Count > 0)
             {
                 Console.WriteLine(HelperFunctions.GetPromedy(encuestas.ToArray(),"moviesByUser"));
+                HelperFunctions.GetMoviesPerPeriod(encuestas.ToArray());
             }
 
             return _context.Encuestas != null ?

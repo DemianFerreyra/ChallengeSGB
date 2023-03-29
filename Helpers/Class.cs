@@ -1,4 +1,6 @@
-﻿namespace ChallengeSGB.Helpers
+﻿using Newtonsoft.Json.Linq;
+
+namespace ChallengeSGB.Helpers
 {
     public class Promedy
     {
@@ -11,9 +13,14 @@
             value = _value;
         }
     }
-    public class Resultados
+    public class MoviesPerPeriod
     {
         public int moviesSeen;
-        public int moviesSeenPerPeriod;
+        public string period;
+        public MoviesPerPeriod(string _period, int _moviesSeen)
+        {
+            moviesSeen = _moviesSeen;
+            period = _period;
+        }
     }
 }
