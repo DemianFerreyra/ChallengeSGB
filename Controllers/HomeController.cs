@@ -13,15 +13,13 @@ namespace ChallengeSGB.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? id, bool? json)
         {
+            Console.WriteLine(json);
+            Console.WriteLine(id);
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
