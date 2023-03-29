@@ -1,22 +1,23 @@
-﻿using ChallengeSGB.Models;
+﻿using System;
+using ChallengeSGB.Models;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ChallengeSGB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ChallengeContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ChallengeContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index(int? id, bool? json)
+        public IActionResult Index(int? id)
         {
-            Console.WriteLine(json);
-            Console.WriteLine(id);
             return View();
         }
 
