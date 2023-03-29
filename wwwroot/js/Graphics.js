@@ -5,11 +5,9 @@
         dataType: "json",
         url: "http://localhost:5243/encuestas/promedy?json=true",
         error: function () {
-            console.log("error");
             alert("Ocurrio un error a la hora de mostrar los datos requeridos");
         },
         success: function (data) {
-            console.log(data);
             DrawMoviesPerPeriod(GetMoviesSeenPerPeriod(data));
         }
     })

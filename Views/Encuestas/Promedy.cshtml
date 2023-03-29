@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ChallengeSGB.Helpers.Results
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="module" src="~/js/HelperFunctionsJS.js"></script>
@@ -17,11 +15,12 @@
     <a asp-action="Index">Volver al indice</a>
 </p>
 
+<br>
+<div class="SimpleStat">
+    <h6>Promedio de peliculas vistas por usuario</h6>
+    <h1>@Html.DisplayTextFor(model => model.viewsPerUser)</h1>
+</div>
 
 <figure class="highcharts-figure">
     <div id="container"></div>
-    <p class="highcharts-description">
-        This chart shows how data labels can be added to the data series. This
-        can increase readability and comprehension for small datasets.
-    </p>
 </figure>

@@ -34,6 +34,8 @@ namespace ChallengeSGB.Controllers
             try
             {
                 List<Encuesta> encuestas = await _context.Encuestas.ToListAsync();
+                float moviesPerUser = 0;
+
                 Console.WriteLine("conteo = " + encuestas.Count);
 
                 if (json == true)
@@ -42,12 +44,13 @@ namespace ChallengeSGB.Controllers
                 }
                 if (encuestas.Count > 0)
                 {
-                    Console.WriteLine(HelperFunctions.GetPromedy(encuestas.ToArray(), "moviesByUser"));
+                    moviesPerUser = HelperFunctions.GetPromedy(encuestas.ToArray(), "moviesByUser");
                     HelperFunctions.GetMoviesPerPeriod(encuestas.ToArray());
                 }
+                Helpers.Results results = new Helpers.Results(await _context.Encuestas.ToListAsync(), moviesPerUser);
 
                 return _context.Encuestas != null ?
-                            View(encuestas) :
+                            View(results) :
                             Problem("Entity set 'ChallengeContext.Encuestas'  is null.");
             }
             catch
