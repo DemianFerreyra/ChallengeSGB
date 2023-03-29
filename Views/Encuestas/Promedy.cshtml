@@ -1,7 +1,6 @@
-﻿@model ChallengeSGB.Helpers.Results
+﻿@model ChallengeSGB.Helpers.PromedyResults
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script type="module" src="~/js/HelperFunctionsJS.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -21,6 +20,5 @@
     <h1>@Html.DisplayTextFor(model => model.viewsPerUser)</h1>
 </div>
 
-<figure class="highcharts-figure">
-    <div id="container"></div>
-</figure>
+<div id="perPeriodContainer"></div>
+<div id="perAgeContainer"></div>

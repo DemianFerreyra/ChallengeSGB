@@ -18,15 +18,12 @@ public class HelperFunctions
         return false;
     }
 
-    public static float GetPromedy(Encuesta[] encuestas, string caseToGetPromedy)
+    public static float GetPromedyByUser(List<Encuesta> encuestas)
     {
         float total = 0;
         int iterations = 0;
         foreach (var encuesta in encuestas)
         {
-            switch (caseToGetPromedy)
-            {
-                case "moviesByUser":
                     List<string> repeatedUsers = new List<string>();
                     //como el caso actual es peliculas por usuario, lo que hacemos es verificar si el usuario actual ya esta en la lista de repeatedUsers. Si no es el caso, entonces no se sumara iteracion, si es el caso, se sumara una iteracion, de manera tal que se saca el TOTAL de cada usuario sin importar el periodo, luego se suman y se dividen por la cantidad de usuarios 
                     if (repeatedUsers.Contains(encuesta.NumeroUsuario.ToString())){
@@ -38,16 +35,38 @@ public class HelperFunctions
                         repeatedUsers.Add(encuesta.NumeroUsuario.ToString());
                         iterations++;
                     }
-                    break;
-                default:
-                    break;
-            }
         }
 
         return total / iterations;
     }
+    public static Promedy[] MoviesPerAge(List<Encuesta> encuestas)
+    {
+        List<Promedy> promedies = new List<Promedy>();
 
-    public static MoviesPerPeriod[] GetMoviesPerPeriod(Encuesta[] encuestas)
+        List<string> repeatedAges = new List<string>();
+        foreach (var encuesta in encuestas)
+        {
+            int age = GetAge(encuesta.FechaNacimiento ?? new DateTime());
+            if (repeatedAges.Contains(age.ToString()))
+            {
+                promedies.Find(promedy => promedy.reference == age.ToString()).value += encuesta.CantidadPeliculas ?? 0;
+            }
+            else
+            {
+                repeatedAges.Add(age.ToString());
+                promedies.Add(new Promedy(age.ToString(), encuesta.CantidadPeliculas ?? 0));
+            }
+        }
+        foreach (var promedy in promedies)
+        {
+          Console.WriteLine(promedy.value);
+        }
+
+        return promedies.ToArray();
+    }
+
+
+    public static MoviesPerPeriod[] GetMoviesPerPeriod(List<Encuesta> encuestas)
     {
         List<MoviesPerPeriod> moviesByPeriod = new List<MoviesPerPeriod>();
 
@@ -68,11 +87,16 @@ public class HelperFunctions
         {
             moviesByPeriod.Add(new MoviesPerPeriod(period.reference, period.value));
         }
-
-        foreach(var movies in moviesByPeriod)
-        {
-            Console.WriteLine($"peliculasPorPeriodo actual = {movies.period}:{movies.moviesSeen}");
-        }
         return moviesByPeriod.ToArray();
+    }
+
+    public static int GetAge(DateTime dateOfBirth)
+    {
+        var today = DateTime.Today;
+
+        var a = (today.Year * 100 + today.Month) * 100 + today.Day;
+        var b = (dateOfBirth.Year * 100 + dateOfBirth.Month) * 100 + dateOfBirth.Day;
+
+        return (a - b) / 10000;
     }
 }

@@ -34,21 +34,20 @@ namespace ChallengeSGB.Controllers
             try
             {
                 List<Encuesta> encuestas = await _context.Encuestas.ToListAsync();
-                float moviesPerUser = 0;
+                PromedyResults results = new PromedyResults();
 
-                Console.WriteLine("conteo = " + encuestas.Count);
+                if (encuestas.Count > 0)
+                {
+                    results.encuestas = encuestas;
+                    results.viewsPerUser = HelperFunctions.GetPromedyByUser(encuestas);
+                    results.moviesByAge = HelperFunctions.MoviesPerAge(encuestas).ToList();
+                    results.moviesPerPeriod = HelperFunctions.GetMoviesPerPeriod(encuestas).ToList();
+                }
 
                 if (json == true)
                 {
-                    return Json(encuestas);
+                    return Json(results);
                 }
-                if (encuestas.Count > 0)
-                {
-                    moviesPerUser = HelperFunctions.GetPromedy(encuestas.ToArray(), "moviesByUser");
-                    HelperFunctions.GetMoviesPerPeriod(encuestas.ToArray());
-                }
-                Helpers.Results results = new Helpers.Results(await _context.Encuestas.ToListAsync(), moviesPerUser);
-
                 return _context.Encuestas != null ?
                             View(results) :
                             Problem("Entity set 'ChallengeContext.Encuestas'  is null.");

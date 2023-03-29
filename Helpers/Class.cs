@@ -5,8 +5,8 @@ namespace ChallengeSGB.Helpers
 {
     public class Promedy
     {
-        public string reference;
-        public int value;
+        public string reference { get; set; }
+        public int value { get; set; }
 
         public Promedy(string _reference, int _value)
         {
@@ -16,23 +16,27 @@ namespace ChallengeSGB.Helpers
     }
     public class MoviesPerPeriod
     {
-        public int moviesSeen;
-        public string period;
+        public int moviesSeen {get; set;}
+        public string period { get; set; }
         public MoviesPerPeriod(string _period, int _moviesSeen)
         {
             moviesSeen = _moviesSeen;
             period = _period;
         }
     }
-    public class Results
+    public class PromedyResults
     {
-        public List<Encuesta> encuestas;
-        public float viewsPerUser;
+        public List<Encuesta> encuestas { get; set; }
+        public float viewsPerUser { get; set; }
+        public List<Promedy> moviesByAge { get; set; }
+        public List<MoviesPerPeriod> moviesPerPeriod { get; set; }
 
-        public Results(List<Encuesta> _encuestas, float _viewsPerUser)
-        {
-            encuestas = _encuestas;
-            viewsPerUser = _viewsPerUser;
-        }
+        //public PromedyResults(List<Encuesta> _encuestas, float _viewsPerUser, List<Promedy> _moviesByAge, List<MoviesPerPeriod> _moviesPerPeriod)
+        //{
+        //    encuestas = _encuestas;
+        //    viewsPerUser = _viewsPerUser;
+        //    moviesByAge = _moviesByAge;
+        //    moviesPerPeriod = _moviesPerPeriod;
+        //}
     }
 }

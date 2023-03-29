@@ -8,13 +8,14 @@
             alert("Ocurrio un error a la hora de mostrar los datos requeridos");
         },
         success: function (data) {
-            DrawMoviesPerPeriod(GetMoviesSeenPerPeriod(data));
+            DrawMovies(GetData(data));
         }
     })
 });
 
-function DrawMoviesPerPeriod(data) {
-    Highcharts.chart('container', {
+function DrawMovies(data) {
+    console.log(data);
+    Highcharts.chart('perPeriodContainer', {
         chart: {
             type: 'line'
         },
@@ -22,7 +23,7 @@ function DrawMoviesPerPeriod(data) {
             text: 'Promedio de peliculas vistas por periodo'
         },
         xAxis: {
-            categories: data.map(data => data.period)
+            categories: data.periods.map(data => data.period)
         },
         yAxis: {
             title: {
@@ -39,26 +40,87 @@ function DrawMoviesPerPeriod(data) {
         },
         series: [{
             name: 'Promedio de peliculas vistas',
-            data: data.map(period => period.data)
+            data: data.periods.map(period => period.data)
         }]
     });
+
+    Highcharts.chart('perAgeContainer', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Browser market shares in March, 2022',
+            align: 'left'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Chrome',
+                y: 74.77,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Edge',
+                y: 12.82
+            }, {
+                name: 'Firefox',
+                y: 4.63
+            }, {
+                name: 'Safari',
+                y: 2.44
+            }, {
+                name: 'Internet Explorer',
+                y: 2.02
+            }, {
+                name: 'Other',
+                y: 3.28
+            }]
+        }]
+    });
+
 }
 
-function GetMoviesSeenPerPeriod(data) {
+function GetData(data) {
+    console.log(data);
     let periods = [];
-    data.forEach(data => {
-
-        if (periods.find(period => period.period == data.periodo)) {
-            periods.find(period => period.period == data.periodo).data += data.cantidadPeliculas;
+    let byAge = [];
+    data.moviesPerPeriod.forEach(data => {
+        console.log(data);
+        if (periods.find(period => period.period == data.period)) {
+            periods.find(period => period.period == data.period).data += data.moviesPerPeriod.moviesSeen;
         }
         else {
             periods.push(
                 {
-                    "period": data.periodo,
-                    "data": data.cantidadPeliculas
+                    "period": data.period,
+                    "data": data.moviesSeen
                 }
             )
         }
     })
-    return periods;
+    return {
+        "periods": periods
+    };
 }
