@@ -29,19 +29,32 @@ namespace ChallengeSGB.Controllers
 
         // GET: Encuestas/promedy
 
-        public async Task<IActionResult> Promedy()
+        public async Task<IActionResult> Promedy(bool? json)
         {
-            List<Encuesta> encuestas = await _context.Encuestas.ToListAsync();
-            Console.WriteLine("conteo = " + encuestas.Count);
-            if (encuestas.Count > 0)
+            try
             {
-                Console.WriteLine(HelperFunctions.GetPromedy(encuestas.ToArray(),"moviesByUser"));
-                HelperFunctions.GetMoviesPerPeriod(encuestas.ToArray());
-            }
+                List<Encuesta> encuestas = await _context.Encuestas.ToListAsync();
+                Console.WriteLine("conteo = " + encuestas.Count);
 
-            return _context.Encuestas != null ?
-                        View(await _context.Encuestas.ToListAsync()) :
-                        Problem("Entity set 'ChallengeContext.Encuestas'  is null.");
+                if (json == true)
+                {
+                    return Json(encuestas);
+                }
+                if (encuestas.Count > 0)
+                {
+                    Console.WriteLine(HelperFunctions.GetPromedy(encuestas.ToArray(), "moviesByUser"));
+                    HelperFunctions.GetMoviesPerPeriod(encuestas.ToArray());
+                }
+
+                return _context.Encuestas != null ?
+                            View(encuestas) :
+                            Problem("Entity set 'ChallengeContext.Encuestas'  is null.");
+            }
+            catch
+            {
+                return Problem("An error has ocurred handling the data...");
+            }
+            
         }
 
         // GET: Encuestas/Details/5
