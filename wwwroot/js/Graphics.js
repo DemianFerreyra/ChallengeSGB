@@ -15,6 +15,7 @@
 
 function DrawMovies(data) {
     //highchart por periodo
+    console.log(data.periods);
     Highcharts.chart('perPeriodContainer', {
         chart: {
             type: 'line'
@@ -133,6 +134,7 @@ function DrawMovies(data) {
     });
 
     //highchart por periodo y sexo
+    console.log(data.byPeriodAndSex);
     Highcharts.chart('perPeriodAndSexContainer', {
         chart: {
             type: 'line'
@@ -161,7 +163,6 @@ function DrawMovies(data) {
 }
 
 function GetData(data) {
-    console.log(data);
     let periodsString = [];
     let periods = [];
     let byAge = [];
@@ -181,9 +182,13 @@ function GetData(data) {
     data.moviesByAge.forEach(byAgeData => byAge.push(["edad: " + byAgeData.reference, byAgeData.value]))
     data.moviesBySex.forEach(bySexData => bySex.push(["sexo: " + bySexData.reference, bySexData.value]))
     data.moviesPerPeriodAndSex.forEach(byPeriodAndSexData => {
+        let newValues = [];
+        byPeriodAndSexData.moviesPerPeriod.forEach(moviesPerPeriod => {
+            newValues.push(moviesPerPeriod.moviesSeen)
+        })
         periodsBasedOnSex.push({
             "name": byPeriodAndSexData.sex,
-            "data": byPeriodAndSexData.moviesSeen
+            "data": newValues
         })
     })
 
