@@ -14,6 +14,7 @@
 });
 
 function DrawMovies(data) {
+    //highchart por periodo
     console.log(data);
     Highcharts.chart('perPeriodContainer', {
         chart: {
@@ -44,41 +45,7 @@ function DrawMovies(data) {
         }]
     });
 
-    //Highcharts.chart('perAgeContainer', {
-    //    chart: {
-    //        plotBackgroundColor: null,
-    //        plotBorderWidth: null,
-    //        plotShadow: false,
-    //        type: 'pie'
-    //    },
-    //    title: {
-    //        text: 'Promedio de series vistas segun edad',
-    //        align: 'left'
-    //    },
-    //    tooltip: {
-    //        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    //    },
-    //    accessibility: {
-    //        point: {
-    //            valueSuffix: '%'
-    //        }
-    //    },
-    //    plotOptions: {
-    //        pie: {
-    //            allowPointSelect: true,
-    //            cursor: 'pointer',
-    //            dataLabels: {
-    //                enabled: false
-    //            },
-    //            showInLegend: true
-    //        }
-    //    },
-    //    series: [{
-    //        name: '',
-    //        colorByPoint: true,
-    //        data: data.byAge.map(data => data)
-    //    }]
-    //});
+    //highchart por edad
     Highcharts.chart('perAgeContainer', {
         chart: {
             type: 'column'
@@ -122,6 +89,49 @@ function DrawMovies(data) {
         }]
     });
 
+    //highchart por sexo
+    Highcharts.chart('perSexContainer', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Promedio de peliculas vistas segun el genero del usuario'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Promedio'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Series vistas',
+            data: data.bySex.map(data => data),
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
 
 }
 
@@ -129,6 +139,7 @@ function GetData(data) {
     console.log(data);
     let periods = [];
     let byAge = [];
+    let bySex = [];
 
     //conseguimos la informacion de cada periodo y su promedio
     data.moviesPerPeriod.forEach(data => {
@@ -146,10 +157,11 @@ function GetData(data) {
         }
     })
     data.moviesByAge.forEach(data => byAge.push(["edad: " + data.reference, data.value]))
-
+    data.moviesBySex.forEach(data => bySex.push(["sexo: " + data.reference, data.value]))
 
     return {
         "periods": periods,
-        "byAge": byAge
+        "byAge": byAge,
+        "bySex": bySex
     };
 }

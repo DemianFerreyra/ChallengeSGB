@@ -40,7 +40,8 @@ namespace ChallengeSGB.Controllers
                 {
                     results.encuestas = encuestas;
                     results.viewsPerUser = HelperFunctions.GetPromedyByUser(encuestas);
-                    results.moviesByAge = HelperFunctions.MoviesPerAge(encuestas).ToList();
+                    results.moviesByAge = HelperFunctions.MoviesPerAgeOrSex(encuestas, true).ToList();
+                    results.moviesBySex = HelperFunctions.MoviesPerAgeOrSex(encuestas, false).ToList();
                     results.moviesPerPeriod = HelperFunctions.GetMoviesPerPeriod(encuestas).ToList();
                 }
 

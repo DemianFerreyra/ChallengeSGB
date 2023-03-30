@@ -39,23 +39,40 @@ public class HelperFunctions
 
         return (float)Math.Round((total / iterations), 2);
     }
-    public static Promedy[] MoviesPerAge(List<Encuesta> encuestas)
+    public static Promedy[] MoviesPerAgeOrSex(List<Encuesta> encuestas, bool byAge)
     {
         List<Promedy> promedies = new List<Promedy>();
 
-        List<string> repeatedAges = new List<string>();
+        List<string> repeated = new List<string>();
+        
         foreach (var encuesta in encuestas)
         {
-            int age = GetAge(encuesta.FechaNacimiento ?? new DateTime());
-            if (repeatedAges.Contains(age.ToString()))
+            if (byAge == true)
             {
-                promedies.Find(promedy => promedy.reference == age.ToString()).value += encuesta.CantidadPeliculas ?? 0;
-                promedies.Find(promedy => promedy.reference == age.ToString()).iteration++;
+                int age = GetAge(encuesta.FechaNacimiento ?? new DateTime());
+                if (repeated.Contains(age.ToString()))
+                {
+                    promedies.Find(promedy => promedy.reference == age.ToString()).value += encuesta.CantidadPeliculas ?? 0;
+                    promedies.Find(promedy => promedy.reference == age.ToString()).iteration++;
+                }
+                else
+                {
+                    repeated.Add(age.ToString());
+                    promedies.Add(new Promedy(age.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
+                }
             }
             else
             {
-                repeatedAges.Add(age.ToString());
-                promedies.Add(new Promedy(age.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
+                if (repeated.Contains(encuesta.Sexo))
+                {
+                    promedies.Find(promedy => promedy.reference == encuesta.Sexo).value += encuesta.CantidadPeliculas ?? 0;
+                    promedies.Find(promedy => promedy.reference == encuesta.Sexo).iteration++;
+                }
+                else
+                {
+                    repeated.Add(encuesta.Sexo);
+                    promedies.Add(new Promedy(encuesta.Sexo, encuesta.CantidadPeliculas ?? 0, 1));
+                }
             }
         }
         foreach (var promedy in promedies)

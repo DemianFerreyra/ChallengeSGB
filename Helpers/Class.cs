@@ -31,14 +31,7 @@ namespace ChallengeSGB.Helpers
         public List<Encuesta> encuestas { get; set; }
         public float viewsPerUser { get; set; }
         public List<Promedy> moviesByAge { get; set; }
+        public List<Promedy> moviesBySex { get; set; }
         public List<MoviesPerPeriod> moviesPerPeriod { get; set; }
-
-        //public PromedyResults(List<Encuesta> _encuestas, float _viewsPerUser, List<Promedy> _moviesByAge, List<MoviesPerPeriod> _moviesPerPeriod)
-        //{
-        //    encuestas = _encuestas;
-        //    viewsPerUser = _viewsPerUser;
-        //    moviesByAge = _moviesByAge;
-        //    moviesPerPeriod = _moviesPerPeriod;
-        //}
     }
 }
