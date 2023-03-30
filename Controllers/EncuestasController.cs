@@ -39,16 +39,16 @@ namespace ChallengeSGB.Controllers
 
                 if (encuestas.Count > 0)
                 {
-                    results.encuestas = encuestas;
+                    results.encuestas = HelperFunctions.OrderEncuestasByPeriod(encuestas); 
                     results.viewsPerUser = HelperFunctions.GetPromedyByUser(encuestas);
                     results.moviesByAge = HelperFunctions.MoviesPerAgeOrSex(encuestas, true).ToList();
                     results.moviesBySex = HelperFunctions.MoviesPerAgeOrSex(encuestas, false).ToList();
-                    results.moviesPerPeriod = HelperFunctions.GetMoviesPerPeriod(encuestas).ToList();
+                    results.moviesPerPeriod = HelperFunctions.GetMoviesPerPeriod(results.encuestas).ToList();
                     //movies per period and Sex
                     results.moviesPerPeriodAndSex = new List<MoviesPerPeriodAndSex>();
-                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Female", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "F")));
-                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Male", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "M")));
-                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Other", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "X")));
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Female", HelperFunctions.GetMoviesPerPeriodBasedOnSex(results.encuestas, "F")));
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Male", HelperFunctions.GetMoviesPerPeriodBasedOnSex(results.encuestas, "M")));
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Other", HelperFunctions.GetMoviesPerPeriodBasedOnSex(results.encuestas, "X")));
                 }
 
                 if (json == true)

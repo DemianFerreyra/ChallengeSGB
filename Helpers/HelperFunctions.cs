@@ -1,5 +1,6 @@
 ﻿using ChallengeSGB.Helpers;
 using ChallengeSGB.Models;
+using System.Collections.Generic;
 
 
 public class HelperFunctions
@@ -90,6 +91,7 @@ public class HelperFunctions
         List<Promedy> periods = new List<Promedy>();
         foreach (var encuesta in encuestas)
         {
+            Console.WriteLine(encuesta.Periodo.ToString());
             //en el caso actual lo que hacemos es guardar periodos (una clase con 2 propiedades, su referencia y su valor) cada vez que encontremos un periodo que no haya sido almacenado. En caso de que el periodo actual ya exista en esta lista, simplemente le sumamos la cantidad de peliculas.
             if (periods.Find(p => p.reference == encuesta.Periodo.ToString()) != null)
             {
@@ -112,22 +114,24 @@ public class HelperFunctions
         List<MoviesPerPeriod> moviesByPeriod = new List<MoviesPerPeriod>();
 
         List<Promedy> periods = new List<Promedy>();
+
+
         foreach (var encuesta in encuestas)
         {
-            //en el caso actual lo que hacemos es guardar periodos (una clase con 2 propiedades, su referencia y su valor) cada vez que encontremos un periodo que no haya sido almacenado. En caso de que el periodo actual ya exista en esta lista, simplemente le sumamos la cantidad de peliculas.
-            if (periods.Find(p => p.reference == encuesta.Periodo.ToString()) != null)
+            if (encuesta.Sexo == Sex)
             {
-                if(encuesta.Sexo == Sex)
+                if (periods.Find(p => p.reference == encuesta.Periodo.ToString()) != null)
                 {
                     periods.Find(p => p.reference == encuesta.Periodo.ToString()).value += encuesta.CantidadPeliculas ?? 0;
-                }  
+                }
+                else
+                {
+                    periods.Add(new Promedy(encuesta.Periodo.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
+                }
             }
             else
             {
-                if (encuesta.Sexo == Sex)
-                {
-                    periods.Add(new Promedy(encuesta.Periodo.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
-                }       
+                periods.Add(new Promedy(encuesta.Periodo.ToString(), 0, 1));
             }
         }
         foreach (var period in periods)
@@ -145,5 +149,23 @@ public class HelperFunctions
         var b = (dateOfBirth.Year * 100 + dateOfBirth.Month) * 100 + dateOfBirth.Day;
 
         return (a - b) / 10000;
+    }
+
+    public static List<Encuesta> OrderEncuestasByPeriod(List<Encuesta> encuestas)
+    {
+        List<Encuesta> ordered = encuestas.OrderBy(encuesta =>
+        {
+            string period = encuesta.Periodo.ToString();
+            if (period.Length == 5)
+            {
+                return period.Substring(1);
+            }
+            else
+            {
+                return period.Substring(2);
+            }
+        }).ToList();
+
+        return ordered;
     }
 }
