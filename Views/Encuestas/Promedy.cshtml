@@ -15,11 +15,18 @@
 </p>
 
 <br>
-<div class="SimpleStat">
-    <h6>Promedio de peliculas vistas por usuario</h6>
-    <h1>@Html.DisplayTextFor(model => model.viewsPerUser)</h1>
+<div class="Stats">
+    <div class="SimpleStat">
+        <h6>Promedio de peliculas vistas por usuario</h6>
+        <h1>@Html.DisplayTextFor(model => model.viewsPerUser)</h1>
+    </div>
+    <div class="SimpleStat">
+        <h6>Encuestas realizadas</h6>
+        <h1>@Html.DisplayTextFor(model => model.encuestas.Count)</h1>
+    </div>
 </div>
 
-<div id="perPeriodContainer"></div>
-<div id="perAgeContainer"></div>
-<div id="perSexContainer"></div>
+
+<div class="Chart" id="perPeriodContainer"></div>
+<div class="Chart" id="perAgeContainer"></div>
+<div class="Chart" id="perSexContainer"></div>

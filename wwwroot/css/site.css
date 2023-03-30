@@ -29,6 +29,14 @@ body {
     background-color: rgb(0, 0, 0, 0.6);
 }
 
+.Stats{
+    width: 85vw;
+    display:flex;
+    justify-content:center;
+    gap:10vw;
+    margin-bottom: 10vh;
+}
+
 .SimpleStat {
     color: white;
     font-weight: 600;
@@ -39,4 +47,8 @@ body {
     align-items: center;
     text-align: center;
     background-color: rgb(53, 174, 121);
+}
+
+.Chart {
+    margin-top: 12vh;
 }
