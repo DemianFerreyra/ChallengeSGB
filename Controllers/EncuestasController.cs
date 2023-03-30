@@ -43,6 +43,11 @@ namespace ChallengeSGB.Controllers
                     results.moviesByAge = HelperFunctions.MoviesPerAgeOrSex(encuestas, true).ToList();
                     results.moviesBySex = HelperFunctions.MoviesPerAgeOrSex(encuestas, false).ToList();
                     results.moviesPerPeriod = HelperFunctions.GetMoviesPerPeriod(encuestas).ToList();
+                    //movies per period and Sex
+                    results.moviesPerPeriodAndSex = new List<MoviesPerPeriodAndSex>();
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Female", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "F")));
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Male", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "M")));
+                    results.moviesPerPeriodAndSex.Add(new MoviesPerPeriodAndSex("Other", HelperFunctions.GetMoviesPerPeriodBasedOnSex(encuestas, "X")));
                 }
 
                 if (json == true)

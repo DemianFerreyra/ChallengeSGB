@@ -15,7 +15,6 @@
 
 function DrawMovies(data) {
     //highchart por periodo
-    console.log(data);
     Highcharts.chart('perPeriodContainer', {
         chart: {
             type: 'line'
@@ -133,35 +132,76 @@ function DrawMovies(data) {
         }]
     });
 
+    //highchart por periodo y sexo
+    console.log(data);
+    Highcharts.chart('perPeriodAndSexContainer', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Promedio de peliculas vistas por periodo. Divididas segun el sexo de los usuarios'
+        },
+        xAxis: {
+            categories: data.periods.map(data => data.period)
+        },
+        yAxis: {
+            title: {
+                text: 'Peliculas vistas'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: data.byPeriodAndSex.map(basedOnSex => basedOnSex)
+    });
 }
 
 function GetData(data) {
-    console.log(data);
+    console.log(data)
+    let periodsString = [];
     let periods = [];
     let byAge = [];
     let bySex = [];
+    let periodsBasedOnSex = [];
 
     //conseguimos la informacion de cada periodo y su promedio
-    data.moviesPerPeriod.forEach(data => {
-        console.log(data);
-        if (periods.find(period => period.period == data.period)) {
-            periods.find(period => period.period == data.period).data += data.moviesPerPeriod.moviesSeen;
-        }
-        else {
-            periods.push(
-                {
-                    "period": data.period,
-                    "data": data.moviesSeen
-                }
-            )
-        }
+    data.moviesPerPeriod.forEach(byPeriodData => {
+        periods.push(
+            {
+                "period": byPeriodData.period,
+                "data": byPeriodData.moviesSeen
+            }
+        )
+        periodsString.push(byPeriodData.period);
     })
-    data.moviesByAge.forEach(data => byAge.push(["edad: " + data.reference, data.value]))
-    data.moviesBySex.forEach(data => bySex.push(["sexo: " + data.reference, data.value]))
+    data.moviesByAge.forEach(byAgeData => byAge.push(["edad: " + byAgeData.reference, byAgeData.value]))
+    data.moviesBySex.forEach(bySexData => bySex.push(["sexo: " + bySexData.reference, bySexData.value]))
+    data.moviesPerPeriodAndSex.forEach(byPeriodAndSexData => {
+        let newValues = [];
+
+        for (i = periodsString.length; i > 0; i--){
+            if (byPeriodAndSexData.moviesPerPeriod[i - 1] == null) {
+                newValues.push(0);
+            }
+            else {
+                newValues.push(byPeriodAndSexData.moviesPerPeriod[i - 1].moviesSeen)
+            }
+        }
+        periodsBasedOnSex.push({
+            "name": byPeriodAndSexData.sex,
+            "data": newValues
+        })
+    })
 
     return {
         "periods": periods,
         "byAge": byAge,
-        "bySex": bySex
+        "bySex": bySex,
+        "byPeriodAndSex": periodsBasedOnSex
     };
 }

@@ -26,6 +26,19 @@ namespace ChallengeSGB.Helpers
             period = _period;
         }
     }
+
+    public class MoviesPerPeriodAndSex
+    {
+        public string sex { get; set; }
+        public List<MoviesPerPeriod> moviesPerPeriod { get; set; }
+
+        public MoviesPerPeriodAndSex(string _sex, MoviesPerPeriod[] _moviesPerPeriod)
+        {
+            sex = _sex;
+            moviesPerPeriod = _moviesPerPeriod.ToList();
+        }
+    }
+
     public class PromedyResults
     {
         public List<Encuesta> encuestas { get; set; }
@@ -33,5 +46,6 @@ namespace ChallengeSGB.Helpers
         public List<Promedy> moviesByAge { get; set; }
         public List<Promedy> moviesBySex { get; set; }
         public List<MoviesPerPeriod> moviesPerPeriod { get; set; }
+        public List<MoviesPerPeriodAndSex> moviesPerPeriodAndSex { get; set; }
     }
 }

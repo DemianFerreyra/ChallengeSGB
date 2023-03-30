@@ -83,7 +83,6 @@ public class HelperFunctions
         return promedies.ToArray();
     }
 
-
     public static MoviesPerPeriod[] GetMoviesPerPeriod(List<Encuesta> encuestas)
     {
         List<MoviesPerPeriod> moviesByPeriod = new List<MoviesPerPeriod>();
@@ -102,6 +101,36 @@ public class HelperFunctions
             }
         }
         foreach(var period in periods)
+        {
+            moviesByPeriod.Add(new MoviesPerPeriod(period.reference, period.value));
+        }
+        return moviesByPeriod.ToArray();
+    }
+
+    public static MoviesPerPeriod[] GetMoviesPerPeriodBasedOnSex(List<Encuesta> encuestas, string Sex)
+    {
+        List<MoviesPerPeriod> moviesByPeriod = new List<MoviesPerPeriod>();
+
+        List<Promedy> periods = new List<Promedy>();
+        foreach (var encuesta in encuestas)
+        {
+            //en el caso actual lo que hacemos es guardar periodos (una clase con 2 propiedades, su referencia y su valor) cada vez que encontremos un periodo que no haya sido almacenado. En caso de que el periodo actual ya exista en esta lista, simplemente le sumamos la cantidad de peliculas.
+            if (periods.Find(p => p.reference == encuesta.Periodo.ToString()) != null)
+            {
+                if(encuesta.Sexo == Sex)
+                {
+                    periods.Find(p => p.reference == encuesta.Periodo.ToString()).value += encuesta.CantidadPeliculas ?? 0;
+                }  
+            }
+            else
+            {
+                if (encuesta.Sexo == Sex)
+                {
+                    periods.Add(new Promedy(encuesta.Periodo.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
+                }       
+            }
+        }
+        foreach (var period in periods)
         {
             moviesByPeriod.Add(new MoviesPerPeriod(period.reference, period.value));
         }
