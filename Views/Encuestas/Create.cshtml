@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string[] Genres = {"F","M","X"};
 }
 
 <h1>Create</h1>
@@ -14,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NumeroUsuario" class="control-label"></label>
-                <input asp-for="NumeroUsuario" class="form-control" />
+                <input asp-for="NumeroUsuario" class="form-control" placeholder="Numero de usuario..." required/>
                 <span asp-validation-for="NumeroUsuario" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,17 +25,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="Sexo" class="control-label"></label>
-                <input asp-for="Sexo" class="form-control" />
+                <select asp-for="Sexo" class="form-control">
+                    <option value="F">Mujer</option>
+                    <option value="M">Hombre</option>
+                    <option value="X">Otro</option>
+                </select>
                 <span asp-validation-for="Sexo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Periodo" class="control-label"></label>
-                <input asp-for="Periodo" class="form-control" />
+                <input asp-for="Periodo" class="form-control" placeholder="Periodo en mes/año..." required min="10000" maxlength="6"/>
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CantidadPeliculas" class="control-label"></label>
-                <input asp-for="CantidadPeliculas" class="form-control" />
+                <input asp-for="CantidadPeliculas" class="form-control" required />
                 <span asp-validation-for="CantidadPeliculas" class="text-danger"></span>
             </div>
             <div class="form-group">
