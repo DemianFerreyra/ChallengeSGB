@@ -6,19 +6,21 @@ namespace ChallengeSGB.Helpers
     public class Promedy
     {
         public string reference { get; set; }
-        public int value { get; set; }
+        public float value { get; set; }
+        public int iteration { get; set; }
 
-        public Promedy(string _reference, int _value)
+        public Promedy(string _reference, float _value, int _iteration)
         {
             reference = _reference;
             value = _value;
+            iteration = _iteration;
         }
     }
     public class MoviesPerPeriod
     {
-        public int moviesSeen {get; set;}
+        public float moviesSeen {get; set;}
         public string period { get; set; }
-        public MoviesPerPeriod(string _period, int _moviesSeen)
+        public MoviesPerPeriod(string _period, float _moviesSeen)
         {
             moviesSeen = _moviesSeen;
             period = _period;

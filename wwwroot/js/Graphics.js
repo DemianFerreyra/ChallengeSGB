@@ -44,61 +44,84 @@ function DrawMovies(data) {
         }]
     });
 
+    //Highcharts.chart('perAgeContainer', {
+    //    chart: {
+    //        plotBackgroundColor: null,
+    //        plotBorderWidth: null,
+    //        plotShadow: false,
+    //        type: 'pie'
+    //    },
+    //    title: {
+    //        text: 'Promedio de series vistas segun edad',
+    //        align: 'left'
+    //    },
+    //    tooltip: {
+    //        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //    },
+    //    accessibility: {
+    //        point: {
+    //            valueSuffix: '%'
+    //        }
+    //    },
+    //    plotOptions: {
+    //        pie: {
+    //            allowPointSelect: true,
+    //            cursor: 'pointer',
+    //            dataLabels: {
+    //                enabled: false
+    //            },
+    //            showInLegend: true
+    //        }
+    //    },
+    //    series: [{
+    //        name: '',
+    //        colorByPoint: true,
+    //        data: data.byAge.map(data => data)
+    //    }]
+    //});
     Highcharts.chart('perAgeContainer', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Browser market shares in March, 2022',
-            align: 'left'
+            text: 'Promedio de peliculas vistas segun edad'
         },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
+        xAxis: {
+            type: 'category',
+            labels: {
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
             }
         },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false
-                },
-                showInLegend: true
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Promedio'
             }
+        },
+        legend: {
+            enabled: false
         },
         series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 74.77,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Edge',
-                y: 12.82
-            }, {
-                name: 'Firefox',
-                y: 4.63
-            }, {
-                name: 'Safari',
-                y: 2.44
-            }, {
-                name: 'Internet Explorer',
-                y: 2.02
-            }, {
-                name: 'Other',
-                y: 3.28
-            }]
+            name: 'Series vistas',
+            data: data.byAge.map(data => data),
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
         }]
     });
+
 
 }
 
@@ -106,6 +129,8 @@ function GetData(data) {
     console.log(data);
     let periods = [];
     let byAge = [];
+
+    //conseguimos la informacion de cada periodo y su promedio
     data.moviesPerPeriod.forEach(data => {
         console.log(data);
         if (periods.find(period => period.period == data.period)) {
@@ -120,7 +145,11 @@ function GetData(data) {
             )
         }
     })
+    data.moviesByAge.forEach(data => byAge.push(["edad: " + data.reference, data.value]))
+
+
     return {
-        "periods": periods
+        "periods": periods,
+        "byAge": byAge
     };
 }

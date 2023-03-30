@@ -37,7 +37,7 @@ public class HelperFunctions
                     }
         }
 
-        return total / iterations;
+        return (float)Math.Round((total / iterations), 2);
     }
     public static Promedy[] MoviesPerAge(List<Encuesta> encuestas)
     {
@@ -50,16 +50,17 @@ public class HelperFunctions
             if (repeatedAges.Contains(age.ToString()))
             {
                 promedies.Find(promedy => promedy.reference == age.ToString()).value += encuesta.CantidadPeliculas ?? 0;
+                promedies.Find(promedy => promedy.reference == age.ToString()).iteration++;
             }
             else
             {
                 repeatedAges.Add(age.ToString());
-                promedies.Add(new Promedy(age.ToString(), encuesta.CantidadPeliculas ?? 0));
+                promedies.Add(new Promedy(age.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
             }
         }
         foreach (var promedy in promedies)
         {
-          Console.WriteLine(promedy.value);
+            promedy.value = promedy.value / promedy.iteration;
         }
 
         return promedies.ToArray();
@@ -80,7 +81,7 @@ public class HelperFunctions
             }
             else
             {
-                periods.Add(new Promedy(encuesta.Periodo.ToString(), encuesta.CantidadPeliculas ?? 0));
+                periods.Add(new Promedy(encuesta.Periodo.ToString(), encuesta.CantidadPeliculas ?? 0, 1));
             }
         }
         foreach(var period in periods)
